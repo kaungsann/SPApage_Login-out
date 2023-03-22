@@ -1,24 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Container } from "./style/Share";
+import { ThemeProvider } from "styled-components";
+import { GolbalCss } from "./style/GlobalCss";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
+import Home from "./components /Home";
+import Login from "./components /Login";
+import LoginProvider from "./LoginProvider";
+import RouteGuard from "./Helper/RouteGuard";
 function App() {
+  const theme = {
+    color: {
+      primary: "aliceblue",
+      secondary: "blue",
+    },
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <GolbalCss />
+      <Container>
+        <LoginProvider>
+          <Router>
+            <Routes>
+              <Route
+                path="/home"
+                element={
+                  <RouteGuard>
+                    <Home />
+                  </RouteGuard>
+                }
+              />
+              <Route path="/" element={<Login />} />
+            </Routes>
+          </Router>
+        </LoginProvider>
+      </Container>
+    </ThemeProvider>
   );
 }
 
